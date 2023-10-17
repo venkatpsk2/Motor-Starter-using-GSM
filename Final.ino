@@ -41,9 +41,10 @@ void handleCall(String number) {
       sim800l.sendSMS(number, "Motor off");
     }
   } else {
-    delay(2000);
+    delay(4000);  
     String caller = number;
-    sim800l.tryATcommand("ATH");    
+    sim800l.tryATcommand("ATH");  
+    delay(2000);  
     sim800l.sendSMS("+918667696587", "this number calling you:" + caller);
   }
 }
@@ -58,20 +59,19 @@ void setup() {
   pinMode(relayPin2, OUTPUT);
 
   // Serial.begin(9600);
+  delay(60000);
   sim800l.begin(9600);
 
   sim800l.tryATcommand("AT+CMGD=1,4");
-  delay(1000);
+  delay(2000);
 
   sim800l.setSMSCallback(handleSMS);
-
   sim800l.setCallCallback(handleCall);
 
   EEPROM.get(0, motorstate);
   if (motorstate == 1) {
-    delay(5000);
     motoron();
-    delay(50000);
+    delay(2000);
     sim800l.sendSMS("+918667696587", "Current on reason: Motor on");
   }
 }
